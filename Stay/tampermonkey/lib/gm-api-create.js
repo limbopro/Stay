@@ -274,6 +274,7 @@
 
     function getResourceText(name) {
         let resourceText = typeof __resourceTextStroge !== undefined ? __resourceTextStroge[name] : "";
+        // let resourceText;
         if (!resourceText || typeof resourceText === undefined) {
             // 通过name获取resource
             // resourceText = await GM_getResourceText_p(name);
@@ -301,7 +302,7 @@
         if (!resourceUrl || typeof resourceUrl === undefined) {
             // 通过url获取resources
             browser.runtime.sendMessage({ from: "gm-apis", operate: "GM_getResourceUrl", key: name, uuid: _uuid }, (response) => {
-                console.log("GM_getResourceURL----GM_getResourceURL-----", response);
+                // console.log("GM_getResourceURL----GM_getResourceURL-----", response);
                 __resourceUrlStroge[name] = response.body;
                 resourceUrl = response.body;
             });
@@ -312,7 +313,8 @@
     function getResourceURL_p(name) {
         return new Promise((resolve, reject) => {
             browser.runtime.sendMessage({ from: "gm-apis", operate: "GM_getResourceUrl", key: name, uuid: _uuid }, (response) => {
-                console.log("GM_getResourceURL_p-----", response);
+
+                // console.log("GM_getResourceURL_p-----",response);
                 resolve(response.body);
             });
         });
@@ -349,8 +351,9 @@
      * incognito: 新标签页在隐身模式或私有模式窗口打开
      * 若只有一个参数则新标签页不会聚焦，该函数返回一个对象，有close()、监听器onclosed和closed的标记
      */
-    function openInTab(url, options) {
-        console.log("start GM_openInTab-----", url, options);
+
+    function GM_openInTab(url, options) {
+        // console.log("start GM_openInTab-----", url, options);
         // retrieve tabId to have a chance of closing this window lateron
         var tabId = null;
         var close = function () {
@@ -365,7 +368,7 @@
             }
         };
         var resp = function (response) {
-            console.log("GM_openInTab response---", response)
+            // console.log("GM_openInTab response---", response)
             tabId = response.tabId;
         };
         if (url && url.search(/^\/\//) == 0) {
