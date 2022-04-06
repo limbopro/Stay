@@ -311,7 +311,7 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
             //     sendResponse(response);
             // });
             var url = "https://dump.ventero.de/greasemonkey/resource";/*json文件url*/
-            var url = request.url
+            url = request.url
             var reqXHR = new XMLHttpRequest();
             reqXHR.open("get", url, true);/*设置请求方法与路径*/
             reqXHR.responseType = "text";
@@ -375,6 +375,13 @@ browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
             browser.tabs.create(o, done);
             return true;
         }
+        else if (request.operate === "API_ADD_STYLE" || request.operate === "API_ADD_STYLE_SYNC") {
+            const tabId = sender.tab.id;
+            browser.tabs.insertCSS(tabId, { code: request.css }, () => {
+                if (request.operate === "API_ADD_STYLE") sendResponse(request.css);
+            });
+            return true;
+        } 
     }
     else if ("popup" == request.from){
         console.log(request.from + " " + request.operate);
